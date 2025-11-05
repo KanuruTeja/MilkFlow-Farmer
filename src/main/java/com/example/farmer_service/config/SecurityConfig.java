@@ -26,7 +26,9 @@ public class SecurityConfig {
                         .requestMatchers("/auth/register", "/auth/login").permitAll()
 
                         // Role-based access
-                        .requestMatchers("/farmer/**").hasRole("FARMER")
+//                        .requestMatchers("/farmer/**").hasRole("FARMER")
+                        .requestMatchers("/farmer/**").permitAll()
+
                         .requestMatchers("/delivery/**").hasRole("DELIVERY")
                         .requestMatchers("/manager/**").hasRole("MANAGER")
                         .requestMatchers("/customer/**").hasRole("CUSTOMER")
