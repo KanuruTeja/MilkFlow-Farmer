@@ -1,6 +1,5 @@
 package com.example.farmer_service.config;
 
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,7 +12,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
-                .csrf(csrf -> csrf.disable()) // ✅ new lambda syntax for Spring Security 6+
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         // Swagger & OpenAPI endpoints — no authentication
                         .requestMatchers(
@@ -21,19 +20,9 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/swagger-ui.html"
                         ).permitAll()
-
-                        // Auth endpoints — public
                         .requestMatchers("/auth/register", "/auth/login").permitAll()
-
-                        // Role-based access
-//                        .requestMatchers("/farmer/**").hasRole("FARMER")
                         .requestMatchers("/farmer/**").permitAll()
-
-                        .requestMatchers("/delivery/**").hasRole("DELIVERY")
                         .requestMatchers("/manager/**").hasRole("MANAGER")
-                        .requestMatchers("/customer/**").hasRole("CUSTOMER")
-
-                        // Any other request → authenticated
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form.disable())
